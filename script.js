@@ -1,9 +1,3 @@
-/* ════════════════════════════════════════════════════════
-   JALSAN TRAVELS & TOURS P. LTD.
-   script.js — Main JavaScript
-   ════════════════════════════════════════════════════════ */
-
-/* ── STRIP MARQUEE DATA ──────────────────────────────────── */
 const stripItems = [
   '✈ International Flights',
   '🛫 Domestic Flights',
