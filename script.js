@@ -1,3 +1,9 @@
+/* ════════════════════════════════════════════════════════
+   JALSAN TRAVELS & TOURS P. LTD.
+   script.js — Main JavaScript
+   ════════════════════════════════════════════════════════ */
+
+/* ── STRIP MARQUEE DATA ──────────────────────────────────── */
 const stripItems = [
   '✈ International Flights',
   '🛫 Domestic Flights',
@@ -132,50 +138,56 @@ function initActiveNav() {
 function initContactForm() {
   const submitBtn = document.getElementById('submitBtn');
   const successMsg = document.getElementById('formSuccess');
-  const errorMsg   = document.getElementById('formError');
+  const errorMsg = document.getElementById('formError');
 
   if (!submitBtn) return;
 
-  submitBtn.addEventListener('click', () => {
+  submitBtn.addEventListener('click', async () => {
     const name    = document.getElementById('fname')?.value.trim();
     const phone   = document.getElementById('phone')?.value.trim();
     const email   = document.getElementById('email')?.value.trim();
     const service = document.getElementById('service')?.value;
     const message = document.getElementById('message')?.value.trim();
 
-    // Hide previous messages
-    successMsg && (successMsg.style.display = 'none');
-    errorMsg   && (errorMsg.style.display   = 'none');
+    successMsg.style.display = 'none';
+    errorMsg.style.display   = 'none';
 
-    // Basic validation
     if (!name || !phone) {
-      errorMsg && (errorMsg.style.display = 'block');
-      errorMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      errorMsg.style.display = 'block';
       return;
     }
 
-    // Simulate form submission (replace with real backend/EmailJS/etc.)
     submitBtn.disabled    = true;
     submitBtn.textContent = 'Sending…';
 
-    setTimeout(() => {
-      // Reset form
-      ['fname', 'phone', 'email', 'message'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = '';
+    try {
+      const response = await fetch('https://formspree.io/f/mreojgaa', {
+        // ↑ Replace with YOUR Formspree endpoint
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, email, service, message })
       });
-      const sel = document.getElementById('service');
-      if (sel) sel.selectedIndex = 0;
 
-      // Show success
-      successMsg && (successMsg.style.display = 'block');
-      successMsg?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (response.ok) {
+        successMsg.style.display = 'block';
+        ['fname','phone','email','message'].forEach(id => {
+          document.getElementById(id).value = '';
+        });
+        document.getElementById('service').selectedIndex = 0;
+      } else {
+        throw new Error('Failed');
+      }
+    } catch (err) {
+      errorMsg.textContent = '⚠ Something went wrong. Please call us directly.';
+      errorMsg.style.display = 'block';
+    }
 
-      submitBtn.disabled    = false;
-      submitBtn.textContent = 'Send Message ✉';
-    }, 1200);
+    submitBtn.disabled    = false;
+    submitBtn.textContent = 'Send Message ✉';
   });
 }
+
+
 
 /* ── FOOTER YEAR ─────────────────────────────────────────── */
 function setFooterYear() {

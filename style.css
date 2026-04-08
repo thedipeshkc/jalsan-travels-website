@@ -825,22 +825,30 @@ ul {
 
 .team-avatar {
   margin: 0 auto 20px;
-  width: 88px;
-  height: 88px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--navy), var(--navy-light));
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
   box-shadow: 0 6px 20px rgba(10, 26, 59, 0.25);
+  border: 3px solid var(--border);
+  transition: var(--transition);
 }
 
-.avatar-placeholder {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  color: var(--white);
-  font-weight: 700;
-  letter-spacing: 0.04em;
+.team-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: var(--transition);
+}
+
+.team-card:hover .team-avatar {
+  border-color: var(--red);
+}
+
+.team-card:hover .team-avatar img {
+  transform: scale(1.06);
 }
 
 .team-info h3 {
